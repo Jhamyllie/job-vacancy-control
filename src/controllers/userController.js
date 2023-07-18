@@ -1,11 +1,14 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt"); 
 const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken"); 
 const SECRET = process.env.SECRET;
+// const SECRET = process.env.SECRET;
 
 const createUser = async (req, res) => {
-  const hashPassword = bcrypt.hashSync(req.body.password, 10);
-  req.body.password = hashPassword;
+  const passwordHash = bcrypt.hashSync(req.body.password, 10);
+  req.body.password = passwordHash;
 
   const user = new User(req.body);
   try {
@@ -18,7 +21,7 @@ const createUser = async (req, res) => {
   }
 };
 
-const getAllUser = async (_req, res) => {
+const getAllUsers = async (_req, res) => {
   try {
     const allUser = await User.find({}, null);
     res.status(200).json(allUser);
@@ -65,9 +68,31 @@ const updateUsers = async (req, res) => {
   }
 }
 
+const login = (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = User.findOne({email});
+    if (!user) {
+      return res.status(404).json({message: "User not found"});
+    }
+
+    const checkPassword = bcrypt.compareSync(password, user.password);
+    if(!checkPassword){
+      return res.status(403).json({message: "Invalid password"});
+    }
+
+    const token = jwt.sign({email}, SECRET);
+    return res.status(200).json(token);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message: error.message});
+  } 
+}
+
 module.exports = {
   createUser,
-  getAllUser,
+  getAllUsers,
   updateUsers,
   deleteUserById,
+  login
 }
