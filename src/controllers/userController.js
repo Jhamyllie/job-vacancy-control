@@ -68,16 +68,16 @@ const updateUsers = async (req, res) => {
   }
 }
 
-const login = (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = User.findOne({email});
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({message: "User not found"});
     }
 
-    const checkPassword = bcrypt.compareSync(password, user.password);
-    if(!checkPassword){
+    const verifyPassword = bcrypt.compareSync(password, user.password);
+    if(!verifyPassword){
       return res.status(403).json({message: "Invalid password"});
     }
 
