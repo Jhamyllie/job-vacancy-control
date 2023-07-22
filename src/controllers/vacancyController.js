@@ -1,9 +1,20 @@
 const Vacancy = require('../models/vacancyModel');
+const jwt = require("jsonwebtoken");
+const SECRET = process.env.SECRET;
 
-const getAll = async (_req, res) => {
+const getAll = async (req, res) => {
   try {
-    const vacancy = await Vacancy.find();
-    res.status(200).json(vacancy);
+    const authHeader = req.get("Authorization");
+
+    if(!authHeader){
+      return res.status(401).send("You forgot to pass the authorization information");
+    }
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, 
+      SECRET, 
+    );
+    const vacancy = await Vacancy.find()
+    res.status(200).json(vacancy)
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -11,6 +22,15 @@ const getAll = async (_req, res) => {
 
 const addNewvacancy = (req, res) => {
 	try {
+    const authHeader = req.get("Authorization");
+
+    if(!authHeader){
+      return res.status(401).send("You forgot to pass the authorization information");
+    }
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, 
+      SECRET, 
+    );
 		const {
 			companyName,
 			jobName,
@@ -36,8 +56,17 @@ const addNewvacancy = (req, res) => {
 
 const getById = async (req, res) => {
   try {
+    const authHeader = req.get("Authorization");
+
+    if(!authHeader){
+      return res.status(401).send("You forgot to pass the authorization information");
+    }
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, 
+      SECRET, 
+    );
     const findVacancy = await Vacancy.findById(req.params.id);
-      res.status(200).json(findVacancy);
+    res.status(200).json(findVacancy);
   } catch (error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -46,6 +75,15 @@ const getById = async (req, res) => {
 
 const updateVacancy = async (req, res) => {
   try {
+    const authHeader = req.get("Authorization");
+
+    if(!authHeader){
+      return res.status(401).send("You forgot to pass the authorization information");
+    }
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, 
+      SECRET, 
+    );
     const {
       companyName,
 			jobName,
@@ -70,10 +108,22 @@ const updateVacancy = async (req, res) => {
 
 const deleteVacancy = async (req, res) => {
   try {
-    const { id } = req.params;
-    const deleteVacancy = await Vacancy.findByIdAndDelete(id);
+    const authHeader = req.get("Authorization");
 
-    res.status(200).json(`The vacancy with the id ${deleteVacancy} was successfully deleted`);
+    if(!authHeader){
+      return res.status(401).send("You forgot to pass the authorization information");
+    }
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, 
+      SECRET,
+      async function(erro){
+        if(erro) {
+          return res.status(403).send("Unauthorized access.");
+        }
+        const { id } = req.params;
+        const deleteVacancy = await Vacancy.findByIdAndDelete(id);
+        res.status(200).json({message: "Job has been successfully deleted", deleteVacancy});
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({message: error.message});

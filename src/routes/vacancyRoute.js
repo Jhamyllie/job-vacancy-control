@@ -7,6 +7,6 @@ router.get("/vacancies", controller.getAll);
 router.post("/add", controller.addNewvacancy);
 router.get("/:id", controller.getById);
 router.patch("/update/:id", controller.updateVacancy);
-router.delete("/delete/:id", controller.deleteVacancy);
+router.delete("/delete/vacancy/:id", controller.deleteVacancy);
 
 module.exports = router;
