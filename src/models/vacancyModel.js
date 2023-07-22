@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const VacancySchema = new mongoose.Schema(
   {
+    _id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      default: () => new mongoose.Types.ObjectId()
+    },
     companyName: {
       type: String,
       isRequired: true,
