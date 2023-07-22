@@ -10,6 +10,12 @@ app.use(express.json());
 app.use(cors());
 mongoose.connect();
 
+const swaggerUi = require('swagger-ui-express');
+
+const swaggerFile = require('../swagger/swagger_output.json');
+
+app.use('/minha-rota-de-documentacao', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 app.use("/user", userRoute);
 app.use("/user", vacancyRoutes)
 
