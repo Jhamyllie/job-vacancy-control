@@ -16,12 +16,15 @@ Job vacancy control é uma aplicação de gestão de conteúdos que permite a pe
 
 ### Back-end:
 <details>
+Readme em construção.
 </details>
 
 ### Database:
 <details>
+Readme em construção.
 </details>
 
 ### Front-end:
 <details>
+Readme em construção.
 </details>
