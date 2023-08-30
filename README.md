@@ -1,6 +1,6 @@
 # job-vacancy-control
 
-Job vacancy control é uma aplicação de gestão de conteúdos que permite a pessoa usuária criar, ler, atualizar e apagar conteúdos; Este é um projeto criado em node.js e as informações são armazenadas no banco de dados Mongo.db
+Job vacancy control é uma aplicação de gestão de vagas de emprego que permite a pessoa usuária, criar, ler, atualizar e apagar conteúdos; Este é um projeto criado em node.js e as informações são armazenadas no banco de dados Mongo.db
 
    <summary>
    <h2>Configurações das estruturas:</h2>
