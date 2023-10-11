@@ -71,7 +71,7 @@ Readme em construção.
     npm install nodemon
   ```
 
-  3. Crie um arquivo **.env** e coonfigure de acordo com o .env.example:
+  3. Crie um arquivo **.env** e configure de acordo com o .env.example:
   ```
     touch .env
   ```
